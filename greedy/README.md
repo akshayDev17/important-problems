@@ -1,4 +1,4 @@
-Table of contents
+# Table of contents
 
 1. [Minimum swaps](#min-swaps)
 2. [Generate Queue](#generate-queue)
@@ -16,6 +16,7 @@ Table of contents
    3. `ans += pos[p]-i`, since this `']'` and `'['` will be exchanged
    4. swap these characters
    5. reinitialize `count = 0` and carry out the remaining part of the string
+3. [min-swaps.cpp](min-swaps.cpp)
 
 
 
