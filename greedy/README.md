@@ -36,6 +36,10 @@
 
 6. Time complexity = O(NlogN), space complexity = O(N).
 
+7. [CODE](fkp.cpp), [TEST](fkpTest.txt)
+
+8. [0-1 knapsack problem](../dynamicProgramming/README.md/#0-1kp)
+
 
 
 
