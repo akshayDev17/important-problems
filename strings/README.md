@@ -123,6 +123,13 @@
       2. hence we perform `i++;j++;` on such a discovery, and also `lpp[j] = lpp[j-1] `, since we have found a string which is a prefix and a suffix of the substring `p[0....j]` since we now want to check whether for the substring `p[i+1....j+1]` is `p[i+1] ==  p[j+1]`, i.e. for the substring `p[0.....j+1]` does `p[i]+[i+1] == p[j]+p[j+1]` (string concatenation), i.e. can we find a prefix which is also a suffix longer than that found in step-1 .
          1. we also perform `lpp[j] = lpp[j-1]` in case `p[i] == p[j] && i != j` because this indicates an existence of an even longer prefix(which is also a suffix) than that indicated by `lpp[j-1]`(remember the definition of **`lpp`**), for the substring `p[0....j]` .
       3. if yes, we further increment i and j in hopes of finding the lpp which is also a suffix, of length 3 and so on and so forth.
-      4. if no, i.e. we found that `p[i] != p[j]`(incremented i and j), we  suspect that we might have encountered some other kind of prefix(which is also a suffix) having some common characters (i, i+1.. i' , j, j+1, ....j' such that p[i'] != p[j'], but p[i] == p[j], p[i+1]==p[j+1].... ) and since this may not be the longest prefix found yet, we iterate i back to `lpp[i-1]` which stores the information about the last time(starting index of such a prefix) such a prefix `p[i,i+1...i']` was encountered.
+      4. if no, i.e. we found that `p[i] != p[j]`(incremented i and j), we  suspect that we might have encountered some other kind of prefix(which is also a suffix) having some common characters (i, i+1.. i' , j, j+1, ....j' such that p[i'] != p[j'], but p[i] == p[j], p[i+1]==p[j+1].... ) and since this may not be the longest prefix found yet, we iterate `i` back to `lpp[i-1]` which stores the information about the last time(starting index of such a prefix) such a prefix `p[i,i+1...i']` was encountered.
+      5. for instance, `pattern = "AAACAAAA"`, the corresponding `lps[] = [0 1 2 0 1 2 3 3]`, notice at points `i=0, j = 4` both i and j continuously increment, till `i=3, j = 7`, at which point the code `j = lps[j-1]` is executed, which basically means that 
 
-3. 
+3. **searching**
+
+   1. re-initialise `i=0;j=0;` , let `n` be the length of the string to be searched in.
+   2. while `p[j]==s[i]` increment both i and j.
+      1. if j reaches its limit, i.e. end of string, append the position of i at which the first match was found, in other words, append `i-j` to an answer list.
+      2. if doesn't reach its limit, it means not all characters of the pattern matched the current substring `s[i-j...i]`, but the string `s[i-j....i-1]` matched completely with `p[0...j-1]` meaning that we **don't need to check for **, since we know by the definition of **`lps[]`** that `lps[j-1]` is count of characters of `p[0…j-1]` that are both proper prefix and suffix.
+      3. `if(j == m){ans.pb(i-j);j=lpp[j-1];}` this line tells us that since the first lpp[0...j-1] characters matched, and that `j = lpp[j-1]` gives us the next character that we need to check for mismatch.
