@@ -1,7 +1,42 @@
 # Table of contents
 
-1. [Minimum swaps](#min-swaps)
-2. [Generate Queue](#generate-queue)
+1. [Fractional Knapsack](#fkp)
+2. [Minimum swaps](#min-swaps)
+3. [Generate Queue](#generate-queue)
+
+
+
+
+
+# Fractional Knapsack<a name="fkp"></a>
+
+1. Given weights and values of `n` items, we need to put these items in a knapsack of capacity `W` to get the maximum total value in the knapsack.
+
+2. We can break items for maximizing the total value of knapsack, thus the name *fractional* knapsack.
+
+3. ```bash
+   Input: 	
+   values[] = {60, 100, 120}
+   weights[] = {10, 20, 30}
+   W = 50
+   
+   Output :
+   Maximum possible value = 240
+   By taking full items of 10 kg, 20 kg and 
+   2/3rd of last item of 30 kg
+   ```
+
+4. calculate the ratio value/weight for each item and sort the item on basis of this ratio(descending order of this ratio).
+
+5. Add the item with the highest ratio, until it cannot be added any further(find the maximum weight of this item, in a fractional sense, that can be added into the knapsack, till either the knapsack is full, or we don't have any quantity of the item left)
+
+   1. in the above example, `ratio = [6, 5, 4]`
+   2. now `i = 0`(since this example is already sorted in a descending order, w.r.t. ratio values), check `if(wt[i] <= W)` , if yes, put all of item-i into the knapsack, `value += wt[i]*ratio[i], i++`, updating W as `W -= wt[i]` if no, put as much as can be, i.e. `W` and we will have `value += W*ratio[i]`, updating W as `W = 0`
+   3. repeat step 2 till `W == 0`, return `value`.
+
+6. Time complexity = O(NlogN), space complexity = O(N).
+
+
 
 
 
