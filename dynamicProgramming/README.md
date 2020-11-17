@@ -10,6 +10,8 @@
    1. [Solution](#sol4)
 5. [Egg Dropping Problem](#egg-dropping)
    1. [Solution](#sol5)
+6. [Shortest Common Supersequence](#scs)
+   1. [Solution](#sol6)
 
 
 
@@ -87,8 +89,12 @@
    2. otherwise `lcs[i+1][j+1] = max(lcs[i][j+1], lcs[i+1][j])`
    3. this is the subproblem construction for this DP problem
 5. the answer is contained in the `lcs[n][m]` cell, which tells us the LCS between `x[0...n-1]` and `y[0...m-1]`
-
-
+6. to print the subsequence
+   1. traverse this 2D array, starting from `lcs[n][m]`
+   2. if `x[n-1] == y[m-1]` *pre-pend*    this character to the answer string(if not do nothing), we pre-pend this character because we know that this is the last character of the Longest common subsequence, for the strings `x[0...n-1], y[0...m-1]` . 
+      1. after this, `i--;j--` since we know `lcs[n][m] = 1 + lcs[n-1][m-1] if x[n-1] == y[m-1]`
+   3. **else**, move in the direction of `max(lcs[n-1][m], lcs[n][m-1])`, i.e. if `lcs[n-1][m] > lcs[n][m-1]` do `i--` else do `j--` .
+   4. continue this till either of i or j hits 0.
 
 
 
@@ -204,3 +210,64 @@
 7. thus `cost[i][j] = min(1+max(cost[i-1][j-1], cost[i][j-x])), for x = [1,2,3,....j]`, where `i` represents the eggs remaining, and `j` represents the number of floors remaining to be checked.
    1. if number of stones is 1, i.e. `i == 1`, then `dp[i][j] = j` 
    2. `dp[i][1] = 1, for i >=1`
+
+
+
+
+
+
+
+# Shortest Common Supersequence<a name="scs"></a>
+
+1. [geeks for geeks practice](https://practice.geeksforgeeks.org/problems/shortest-common-supersequence/0)
+
+2. Given two strings `str1` and `str2`, find the shortest string that has both `str1` and `str2` as **subsequences**.
+
+3. ```bash
+   Input:   str1 = "geek",  str2 = "eke"
+   Output: "geeke"
+   
+   Input:   str1 = "AGGTAB",  str2 = "GXTXAYB"
+   Output:  "AGXGTXAYB"
+   ```
+
+
+
+
+
+## Solution<a name="sol6"></a>
+
+1. [CODE](scs.cpp),  [TEST](scsTest.txt)
+
+2. the approach is very similar to finding [longest common subsequence](#lcs) of 2 strings.
+
+3. `dp[i][j]` will represent the length value of the optimal supersequence for sub-strings `x[0...i-1], y[0...j-1]`
+
+4. now, `if x[i-1] == y[j-1]`, this means that this character might be the last occurring character, as part of the LCS of `x[0...i-1], y[0...j-1]` , and after this character, all characters which are not common within `x[i...n-1], y[j....m-1]` will be occurring.
+
+   1. hence this line `if(x[i-1] == y[j-1]) dp[i][j] = 1 + dp[i-1][j-1];`  represents this.
+
+5. if they aren't equal, that means that we need to find the shortest supersequence, among `x[0....i-1], y[0.....j-2]` and `x[0....i-2], y[0....i-1]` and then the respective remaining character, i.e. `y[j-1]` (if the former is selected) or `x[i-1]` (if the latter is selected) will be appended to the supersequence obtained.
+
+   1. this line represents this point: `else dp[i][j] = 1 + min(dp[i-1][j], dp[i][j-1]);`
+
+6. trivially, if the first string is empty, all characters of the other string will become the supersequence <a name="trivial"></a>
+
+   1. this is represented by:
+
+      ```cpp
+      if(i == 0) dp[i][j] = j;
+      else dp[i][j] = i; // j == 0
+      ```
+
+7. now, for **printing** the supersequence
+
+   1. the approach is almost entirely same as LCS(since the process of building up the 2D array was entirely the same)
+   2. start with `dp[n][m]` , if `x[n-1] == y[m-1]` , *pre-pend* the last character and decrement `i--; j--;`
+   3. else find out which of the `dp[n-1][m], dp[n][m-1]` yields a shorter common supersequence
+      1. if the former one does so, then *pre-pend* `x[n-1]`
+      2. else *pre-pend* `y[m-1]`
+   4. continue this till either `i == 0` or `j == 0`
+   5. this basically means that at-most one of the strings has some remaining characters, as was cleared by [this point](#trivial)
+      1. if `i != 0` then *pre-pend* all remaining characters of `x`
+      2. else *pre-pend* all remaining characters of `y`.
