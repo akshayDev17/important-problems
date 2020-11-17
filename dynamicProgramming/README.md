@@ -8,6 +8,8 @@
    1. [Solution](#sol3)
 4. [0-1 Knapsack Problem](#0-1kp)
    1. [Solution](#sol4)
+5. [Egg Dropping Problem](#egg-dropping)
+   1. [Solution](#sol5)
 
 
 
@@ -156,3 +158,49 @@
    2. if `wt[i] <= w`, we may either benefit from picking item-i or not, which is decided by comparing `values[i]+dp[w-weights[i]][i-1]` (pick item i and find value for the remaining capacity of the knapsack) with `dp[w][i-1]`, i.e. reject `i` and find the value for knapsack of capacity `w`.
 5. thus the time and memory complexities are O(n*W), W = capacity of knapsack, n = total available items.
 6. the **[fractional knapsack](../greedy/README.md/#fkp)** is a **greedy-approach** based problem.
+
+
+
+
+
+
+
+# Egg Dropping Problem<a name="egg-dropping"></a>
+
+1. N eggs and you want to determine from which floor in a K-floor building you can drop an egg such that it doesn't break.
+
+   1. determine the **minimum number of attempts** you need in order find the critical floor in the worst case while using the best strategy.
+   2. An egg that survives a fall can be used again.
+   3. A broken egg must be discarded.
+   4. The effect of a fall is the same for all eggs.
+   5. If the egg doesn't break at a certain floor, it will not break at any floor below.
+   6. If the eggs breaks at a certain floor, it will break at any floor above.
+
+2. ```bash
+   Input:
+   N = 2, K = 10
+   Output: 4
+   
+   Input:
+   N = 3, K = 5
+   Output: 3
+   ```
+
+3. [geeksforgeeks practice](https://practice.geeksforgeeks.org/problems/egg-dropping-puzzle-1587115620/1),  [geeksforgeeks explanation](https://www.geeksforgeeks.org/egg-dropping-puzzle-dp-11/)
+
+
+
+## Solution<a name="sol5"></a>
+
+1. [CODE](egg.cpp),  [TEST](eggTest.txt)
+2. When we drop an egg from a floor x, there can be two cases:
+   1. The egg breaks
+   2. The egg doesn’t break.
+3. If the egg breaks after dropping from floor `x` , then we only need to check for floors lower than `x` with remaining eggs as some floor should exist lower than `x` in which egg would not break; so the problem reduces to `x-1` floors and `n-1` eggs.
+4. If the egg doesn’t break after dropping from the floor `x` , then we only need to check for floors higher than `x`; so the problem reduces to `k-x` floors and `n` eggs.
+5. Since we need to minimize the number of trials in *worst* case, we take the maximum of two cases. 
+6. We then go on to choose the floor with the minimum of all these maximum values.
+   1. this is done so as to optimize the worst case scenario.
+7. thus `cost[i][j] = min(1+max(cost[i-1][j-1], cost[i][j-x])), for x = [1,2,3,....j]`, where `i` represents the eggs remaining, and `j` represents the number of floors remaining to be checked.
+   1. if number of stones is 1, i.e. `i == 1`, then `dp[i][j] = j` 
+   2. `dp[i][1] = 1, for i >=1`
