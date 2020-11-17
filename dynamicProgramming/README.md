@@ -80,7 +80,7 @@
 
 ## Solution<a name="sol2"></a>
 
-1. [CODE](#lcs.cpp)
+1. [CODE](lcs.cpp)
 2. simple 2-D DP problem
 3. initialize matrix `lcs[n][m]` where `n = x.length(), m = y.length()`
    1. `lcs[i][j]` indicates the length of longest common subsequence, for the substrings `x[0..i]` and `y[0...j]`
