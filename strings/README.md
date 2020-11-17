@@ -6,6 +6,8 @@
    1. [Solution](#vp2-sol)
 3. [Knuth-Morris-Pratt Algorithm for substring search](#kmp)
    1. [Solution](#sol3)
+4. [Letter Tile Possibilities](#ltp)
+   1. [Solution](#sol4)
 
 
 
@@ -133,3 +135,46 @@
       1. if j reaches its limit, i.e. end of string, append the position of i at which the first match was found, in other words, append `i-j` to an answer list.
       2. if doesn't reach its limit, it means not all characters of the pattern matched the current substring `s[i-j...i]`, but the string `s[i-j....i-1]` matched completely with `p[0...j-1]` meaning that we **don't need to check for **, since we know by the definition of **`lps[]`** that `lps[j-1]` is count of characters of `p[0…j-1]` that are both proper prefix and suffix.
       3. `if(j == m){ans.pb(i-j);j=lpp[j-1];}` this line tells us that since the first lpp[0...j-1] characters matched, and that `j = lpp[j-1]` gives us the next character that we need to check for mismatch.
+
+
+
+
+
+
+
+# Letter Tile Possibilities<a name="ltp"></a>
+
+1. You have `n` `tiles`, where each tile has one letter `tiles[i]` printed on it.
+
+   Return *the number of possible non-empty sequences of letters* you can make using the letters printed on those `tiles`.
+
+2. [leetcode](https://leetcode.com/problems/letter-tile-possibilities/)
+
+3. ```bash
+   Input: tiles = "AAB"
+   Output: 8
+   Explanation: The possible sequences are "A", "B", "AA", "AB", "BA", "AAB", "ABA", "BAA".
+   
+   Input: tiles = "AAABBC"
+   Output: 188
+   
+   Input: tiles = "V"
+   Output: 1
+   ```
+
+
+
+
+
+## Solution<a name="sol4"></a>
+
+1. [CODE](letterTile.cpp) , [TEST](letterTileTest.txt)
+2. for an `N` lengthed string, total possible substrings of all sizes = ![equation](https://latex.codecogs.com/gif.latex?%5Csum%5Climits_%7Bi%3D0%7D%5E%7BN%7D%5Cbinom%7BN%7D%7Bi%7D%20%3D%202%5EN)
+3. since the empty substring is not to  be considered, total possible strings are ![equation](https://latex.codecogs.com/gif.latex?2%5EN-1), hence the loop `for(int i = 1;i< (1 << tiles.size());i++)` , where `1 << tiles.size()` means ![equation](https://latex.codecogs.com/gif.latex?2%5EN-1)
+   1. we start from i = 1, since `i=0` represents the empty string(don't include any character).
+4. each character can be bit-encoded into a substring
+   1. for instance, if original string `s = "ABC"`, then substring `str="AB"` can be denoted as `110`, where `1` indicates that that particular character is included in this substring, whereas `0` means its excluded
+   2. each of these ![equation](https://latex.codecogs.com/gif.latex?2%5EN-1) can be encoded in this bitwise fashion, and if a character, located at index `j` in the main string is present, then `i & (1 << j)` will be non-zero.
+5. the `calc` function is basically a representative of the ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bx%21%7D%7Br_1%21%20r_2%21...r_N%21%7D) where `x = len(str)`, where `str` (refer code) represents one of the substrings formed from an arrangement of `tiles`. the `r_i` indicate count of each unique character in this substring `str` .
+6. we insert this substring into a set, and if this substring is generated again due to the bitwise encoding, we force the loop to `continue` meaning that we now don't include the result of `calc` for this substring again.
+7. for example, take the case `tiles = "ABC", i = 5` which basically means the substring `AC`(101, thus `B` should be excluded.) `calc` for this substring is 2.
