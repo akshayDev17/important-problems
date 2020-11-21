@@ -12,6 +12,8 @@
    1. [Solution](#sol5)
 6. [Shortest Common Supersequence](#scs)
    1. [Solution](#sol6)
+7. [Stone Game 2](#stone-game-2)
+   1. [Solution](#sol7)
 
 
 
@@ -271,3 +273,55 @@
    5. this basically means that at-most one of the strings has some remaining characters, as was cleared by [this point](#trivial)
       1. if `i != 0` then *pre-pend* all remaining characters of `x`
       2. else *pre-pend* all remaining characters of `y`.
+
+
+
+
+
+
+
+# Stone Game 2<a name="stone-game-2"></a>
+
+1. [Leetcode](https://leetcode.com/problems/stone-game/)
+
+   1. the question here has some additional constraints which makes the problem a bit more simpler, but we decided to remove them, so as to understand the DP aspect solely.
+
+2. Alex and Lee play a game with piles of stones. There are a number of piles **arranged in a row**, and each pile has a positive integer number of stones `piles[i]`.
+
+   The objective of the game is to end with the most stones. 
+
+   Alex and Lee take turns, with Alex starting first. Each turn, a player takes the entire pile of stones from either the beginning or the end of the row. This continues until there are no more piles left, at which point the person with the most stones wins.
+
+   Assuming Alex and Lee play optimally, return `True` if and only if Alex wins the game.
+
+
+
+## Solution<a name="sol7"></a>
+
+1. ```cpp
+   bool stoneGame(vector<int>& piles) {
+       int n = piles.size();
+       vector<int> temp(n, 0);
+       vector<vector<int> > dp(n, temp);
+       for(int i = 0;i<n;i++) dp[i][i] = piles[i];
+       for(int size = 1;size < n;size++){
+           for(int i = 0;i<n-size;i++){
+               dp[i][i+size] = max(piles[i] - dp[i+1][i+size], piles[i+size]-dp[i][i+size-1]);
+           }
+       }
+       return dp[0][n-1];
+   }
+   ```
+
+2. `dp[i][j]` = in the sub-array `piles[i]...piles[j]`, biggest number of stones Alex can get more than Lee in the mentioned pile-picking manner.
+
+3. since the starting player can pick the starting or ending pile, here either `piles[i]` or `piles[j]` can be picked.
+
+   1. if `piles[i]` is picked, result will be `piles[i]-dp[i+1][j]`
+   2. if `piles[j]` is picked, result will be `piles[j]-dp[i][j-1]`
+
+4. thus we have `dp[i][j] = max(piles[i] - dp[i+1][j], piles[j]-dp[i][j-1])`.
+
+5. We start from smaller sub-array and then we use that to calculate bigger sub-array.
+
+   1. hence the outer loop of the nested loop is the one where size changes , since we need to formulate answers for the smallest of sub-arrays starting from all possible starting indices within the `piles` array.
