@@ -28,34 +28,35 @@
    class Solution {
    public:
        int nthSuperUglyNumber(int n, vector<int>& primes) {
-           if(n == 1) return 1;
            int k = primes.size();
-           vector<int> ug{1};
-           unordered_set<int> ug_set{1}; // ugly number set
-           ug.reserve(n);
-           ug_set.reserve(n);
-           vector<int> multiple_of(k, 0);        
-           int min_val, min_idx;
-           while(ug.size() < n){
-               min_val = INT_MAX;min_idx = -1;
-               // iterate through all candidate multiples
-               for(int i = 0;i<k;i++){
-                   if(min_val > primes[i]*ug_set[multiple_of[i]])
-                       min_val = primes[i]*ug_set[multiple_of[i]];
-                   	min_idx = i;
+           unordered_map<int,int> mp;
+           mp[1] = 0;
+           vector<int> ugly = {1};
+           vector<int> multiple_of(k, 0);
+           int count = n;
+           while(count){
+               int minNum = INT_MAX, minIdx = -1;
+               for(int i =0;i<k;i++){
+                   if(minNum > primes[i]*ugly[multiple_of[i]]){
+                       minNum = primes[i]*ugly[multiple_of[i]];
+                       minIdx = i;
+                   }
                }
-               if(ug_set.find(min_val) == ug_set.end()){
-                   ug.push_back(min_val);
-                   ug_set.insert(min_val);
+               multiple_of[minIdx]++;
+               if(mp.find(minNum) == mp.end()){
+                   // duplication check
+                   mp[minNum] = 0;
+                   count--;
+                   ugly.push_back(minNum);
                }
-   			// update the candidates information for next turn 
-               multiple_of[min_idx]++;
+               
            }
-           return min_val;
+           return ugly[n-1];
+           // return 32;
        }
    };
-   ```
-
+```
+   
 2. maintain an array `multiple_of` that maintains the position of the largest **ugly** number which when multiplied with `primes[i]` gives the smallest possible multiple of `primes[i]` which is **not yet in the set, hence may be a candidate next-ugly-number**.
 
 3. the product `primes[i]*ugly[multiple_of[i]]` gives us this candidate next-ugly-number value, for each prime number `primes[i]`.
