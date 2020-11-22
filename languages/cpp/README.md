@@ -1,0 +1,1 @@
+1. xor precedence is even less than `==` , hence if suppose we want to check value after xor in an if condition , write it as `if((x^y) == z){}`.
