@@ -12,8 +12,12 @@
    1. [Solution](#sol5)
 6. [Shortest Common Supersequence](#scs)
    1. [Solution](#sol6)
-7. [Stone Game 2](#stone-game-2)
+7. [Stone Game](#stone-game)
    1. [Solution](#sol7)
+8. [Stone Game 2](#stone-game-2)
+   1. [Solution](#sol8)
+9. [Team with no conflicts](#team-with-no-conflicts)
+   1. [Solution](#sol9)
 
 
 
@@ -280,7 +284,7 @@
 
 
 
-# Stone Game 2<a name="stone-game-2"></a>
+# Stone Game<a name="stone-game"></a>
 
 1. [Leetcode](https://leetcode.com/problems/stone-game/)
 
@@ -325,3 +329,155 @@
 5. We start from smaller sub-array and then we use that to calculate bigger sub-array.
 
    1. hence the outer loop of the nested loop is the one where size changes , since we need to formulate answers for the smallest of sub-arrays starting from all possible starting indices within the `piles` array.
+
+
+
+
+
+
+
+# Stone Game 2<a name="stone-game-2"></a>
+
+1. [Leetcode](https://leetcode.com/problems/stone-game-ii/)
+
+2. Alice and Bob continue their games with piles of stones. There are a number of piles **arranged in a row**, and each pile has a positive integer number of stones `piles[i]`. The objective of the game is to end with the most stones. 
+
+   Alice and Bob take turns, with Alice starting first. Initially, `M = 1`.
+
+   On each player's turn, that player can take **all the stones** in the **first** `X` remaining piles, where `1 <= X <= 2M`. Then, we set `M = max(M, X)`.
+
+   The game continues until all the stones have been taken.
+
+   Assuming Alice and Bob play optimally, return the maximum number of stones Alice can get.
+
+3. ```bash
+   Input: piles = [2,7,9,4,4]
+   Output: 10
+   Explanation:  If Alice takes one pile at the beginning, Bob takes two piles, then Alice takes 2 piles again. Alice can get 2 + 4 + 4 = 10 piles in total. If Alice takes two piles at the beginning, then Bob can take all three piles left. In this case, Alice get 2 + 7 = 9 piles in total. So we return 10 since it's larger. 
+   ```
+
+4. ```bash
+   Input: piles = [1,2,3,4,5,100]
+   Output: 104
+   ```
+
+
+
+
+
+## Solution<a name="sol8"></a>
+
+1. ```cpp
+   class Solution {
+   public:
+       int dp(int idx, int m, vector<vector<int> > &mem, int n, vector<int> suffixSum){
+           if(idx + 2*m >= n) return mem[idx][m] = suffixSum[idx];
+           if(mem[idx][m] != -1) return mem[idx][m];
+           int result = 0, currPlayerScore = 0;
+           for(int i = 1;i<=2*m;i++) result = max(result, suffixSum[idx] - dp(idx+i, max(m, i), mem, n, suffixSum) );
+           return mem[idx][m] = result;
+       }
+       int stoneGameII(vector<int>& piles) {
+           int n = piles.size();
+           if(n == 1) return piles[0];
+           if(n == 2) return piles[0]+piles[1];
+           
+           vector<int> suffixSum(n, 0);suffixSum[n-1] = piles[n-1];
+           for(int i = n-2;i>=0;i--) suffixSum[i] = suffixSum[i+1]+piles[i];       
+           
+           vector<int> temp(n, -1);
+           vector<vector<int> > mem(n, temp);
+           dp(0, 1, mem, n, suffixSum);
+           return mem[0][1];
+       }
+   };
+   ```
+
+2. the step `result = max(result, suffixSum[idx] - dp(idx+i, max(m, i), mem, n, suffixSum) );`  signifies that out of the currently remaining `suffixSum[idx]` stones, we take out `dp(idx+i, max(m, i), mem, n, suffixSum)` because this is the number of stones that will be taken by the opponent, thus leaving us with the difference of these quantities.
+
+3. since we want to maximise the number of stones that we picked in this round, we take a max of all possible differences.
+
+
+
+
+
+# Team with no conflicts<a name="team-with-no-conflicts"></a>
+
+1. [LeetCode](https://leetcode.com/problems/best-team-with-no-conflicts/)
+
+2. You are the manager of a basketball team. For the upcoming tournament, you want to choose the team with the highest overall score. The score of the team is the **sum** of scores of all the players in the team.
+
+   However, the basketball team is not allowed to have **conflicts**. A **conflict** exists if a younger player has a **strictly higher** score than an older player. A conflict does **not** occur between players of the same age.
+
+   Given two lists, `scores` and `ages`, where each `scores[i]` and `ages[i]` represents the score and age of the `ith` player, respectively, return *the highest overall score of all possible basketball teams*.
+
+3. ```
+   Input: scores = [1,3,5,10,15], ages = [1,2,3,4,5]
+   Output: 34
+   Explanation: You can choose all the players.
+   ```
+
+4. ```
+   Input: scores = [4,5,6,5], ages = [2,1,2,1]
+   Output: 16
+   Explanation: It is best to choose the last 3 players. Notice that you are allowed to choose multiple people of the same age.
+   ```
+
+5. ```
+   Input: scores = [1,2,3,5], ages = [8,9,10,1]
+   Output: 6
+   Explanation: It is best to choose the first 3 players. 
+   ```
+
+
+
+
+
+## Solution<a name="sol9"></a>
+
+1. ```cpp
+   class Solution {
+   public:
+       static bool compare(const pair<int,int> &a, const pair<int,int> &b){
+           if(a.second != b.second) return a.second < b.second;
+           return a.first < b.first;
+       }
+       int bestTeamScore(vector<int>& scores, vector<int>& ages) {
+           int n = scores.size();
+           if(n == 1) return scores[0];
+           vector<pair<int,int> > vec(n, make_pair(0, 0));
+           for(int i = 0;i<n;i++) vec[i] = make_pair(scores[i], ages[i]);
+           sort(vec.begin(), vec.end(), compare);
+   
+           vector<int> allScores(n, 0);
+           for(int i = 0;i<n;i++){
+               allScores[i] = vec[i].first;
+               for(int j = 0;j<i;j++){
+                   if(vec[j].first <= vec[i].first) allScores[i] = max(vec[i].first + allScores[j], allScores[i]);
+               }
+           }
+           return *max_element(allScores.begin(), allScores.end());
+       }
+   };
+   ```
+
+2. firstly, this is just a slight modification on the [LIS](#lis) problem.
+
+3. ascending sorting w.r.t. ages :-
+
+   1. if ages are same, we need to ascend sort w.r.t. scores, or else the LIS part of the algorithm will fail in capturing all allowed players, since it will think that the players having score larger than the current will always be in a conflict, but its not true, since players having same age won't ever have  a conflict.
+
+   2. for instance, in the case:
+
+      ```bash
+      [319776,611683,835240,602298,430007,574,142444,858606,734364,896074]
+      [1,1,1,1,1,1,1,1,1,1]
+      ```
+
+      all ages are the same, hence if we perform a descend sort w.r.t. scores, then the LIS algorithm will give us the answer as **`896074`**, since the array gets sorted into `[896074, 858606, 835240,...]` and the LIS of this array is obviously `896074`.
+
+4. now, for the current player, suppose we have made the decision of selecting this player, (`allScores[i] = vec[i[.first]]`)
+
+   1. iterate through all players younger than this one(`j< i`), and if their score is smaller/equal to that of the current player, then check whether including this player(`vec[i].first + allScores[j]`) increases the overall score `allScores[i]`
+
+5. after building this array of LIS, return the maximum element, and not `allScores[n-1]`, which would mean purposely selecting player with `scores[n-1], ages[n-1]`

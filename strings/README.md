@@ -8,6 +8,8 @@
    1. [Solution](#sol3)
 4. [Letter Tile Possibilities](#ltp)
    1. [Solution](#sol4)
+5. [Longest Substring Containing Vowels in Even Counts](#even-vowel-counts)
+   1. [Solution](#sol5)
 
 
 
@@ -178,3 +180,66 @@
 5. the `calc` function is basically a representative of the ![equation](https://latex.codecogs.com/gif.latex?%5Cfrac%7Bx%21%7D%7Br_1%21%20r_2%21...r_N%21%7D) where `x = len(str)`, where `str` (refer code) represents one of the substrings formed from an arrangement of `tiles`. the `r_i` indicate count of each unique character in this substring `str` .
 6. we insert this substring into a set, and if this substring is generated again due to the bitwise encoding, we force the loop to `continue` meaning that we now don't include the result of `calc` for this substring again.
 7. for example, take the case `tiles = "ABC", i = 5` which basically means the substring `AC`(101, thus `B` should be excluded.) `calc` for this substring is 2.
+
+
+
+
+
+
+
+# Longest Substring Containing Vowels in Even Counts<a name="even-vowel-counts"></a>
+
+1. [Leetcode](https://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/)
+
+2. Given the string `s`, return the size of the longest substring containing each vowel an even number of times. That is, 'a', 'e', 'i', 'o', and 'u' must appear an even number of times.
+
+3. ```
+   Input: s = "eleetminicoworoep"
+   Output: 13
+   Explanation: The longest substring is "leetminicowor" which contains two each of the vowels: e, i and o and zero of the vowels: a and u.
+   
+   Input: s = "leetcodeisgreat"
+   Output: 5
+   Explanation: The longest substring is "leetc" which contains two e's.
+   
+   Input: s = "bcbcbc"
+   Output: 6
+   Explanation: In this case, the given string "bcbcbc" is the longest because all vowels: a, e, i, o and u appear zero times.
+   ```
+
+
+
+
+
+## Solution<a name="sol5"></a>
+
+1. ```cpp
+   class Solution {
+   public:
+       int findTheLongestSubstring(string s) {
+           int n = s.length();
+           if(n == 0) return 0;
+           
+           unordered_map<char,int> mp={{'a', 16}, {'e', 8}, {'i', 4}, {'o', 2}, {'u', 1}};
+           if(n == 1) return mp.find(s[0]) == mp.end() ? 1 : 0;
+           unordered_map<int,int> valIdx = {{0, -1}};
+           int curr = 0, result = 0;
+           for(int i = 0;i<n;i++){
+               if(mp.find(s[i])!=mp.end()) curr = (curr ^ mp[s[i]]);
+               if(valIdx.find(curr) == valIdx.end()) valIdx[curr] = i;
+               result = max(result, i - valIdx[curr]);
+           }
+           return result;
+       }
+   };
+   ```
+
+2. we encode the occurrence of each vowel in the form of a bit
+
+   1. **aeiou** is the bit-wise representation of the number `curr` ,where a=1 means a occurs odd number of times, and i = 0 means that i occurs even number of times.
+   2. thus, whenever `curr` becomes 0, we have found ourselves a candidate solution.
+   3. each bit basically represents the value `count(vowel) % 2 `
+
+3. initial value of `{0, -1}` is put into the map, since if we find that `curr` becomes 0 later on in the string, then `i-(-1) = i+1` will obviously give us the candidate solution(0-based indexing used to find size of interval).
+
+4. the reason that every new value of `curr` is being pushed into the map is because we may later find the same value, while iterating through the string, which means that the substring existing in between these 2 occurrences has obviously even counts of all vowels.
