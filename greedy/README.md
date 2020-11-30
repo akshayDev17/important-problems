@@ -1,8 +1,19 @@
 # Table of contents
 
-1. [Fractional Knapsack](#fkp)
-2. [Minimum swaps](#min-swaps)
-3. [Generate Queue](#generate-queue)
+1. [Resolving Confusion between greedy and DP](#confusion)
+2. [Fractional Knapsack](#fkp)
+3. [Minimum swaps](#min-swaps)
+4. [Generate Queue](#generate-queue)
+
+
+
+
+
+# Resolving Confusion between greedy and DP<a name="confusion"></a>
+
+<img src="greed-vs-dp-1.png" />
+
+
 
 
 
