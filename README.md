@@ -17,3 +17,14 @@ Examples of each common time complexity
 - O(n) [Linear time]: Linear Search (Finding maximum/minimum element in a 1D array), Counting Sort
 - O(log n) [Logarithmic time]: Binary Search, finding GCD (Greatest Common Divisor) using Euclidean Algorithm
 - O(1) [Constant time]: Calculation (eg. Solving linear equations in one unknown)
+
+# Common Patterns
+1. Hash Map
+2. Prefix/suffix sum
+3. forward/reverse traversal of array
+4. BFS/DFS
+5. DP
+6. Greedy
+7. Character array
+8. Two pointer
+9. Binary Search
