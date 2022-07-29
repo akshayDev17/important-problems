@@ -18,6 +18,8 @@ Examples of each common time complexity
 - O(log n) [Logarithmic time]: Binary Search, finding GCD (Greatest Common Divisor) using Euclidean Algorithm
 - O(1) [Constant time]: Calculation (eg. Solving linear equations in one unknown)
 
+- 2D vector 1-line declaration : `vector<vector<int>> arr = vector<vector<int>>(M, vector<int>(N, 0));` or (`vector<vector<int>> arr = vector<vector<int>>(M, vector<int>(0));`)
+
 # Common Patterns
 1. Hash Map
 2. Prefix/suffix sum
