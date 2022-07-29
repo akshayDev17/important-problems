@@ -28,3 +28,4 @@ Examples of each common time complexity
 7. Character array
 8. Two pointer
 9. Binary Search
+10. Map to [common string pattern](https://leetcode.com/problems/find-and-replace-pattern/)
