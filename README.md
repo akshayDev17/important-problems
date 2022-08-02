@@ -33,6 +33,7 @@ Examples of each common time complexity
         1. when you want to visit all children nodes at once, then BFS.
         2. When you want to visit each child one by one, process child[1] after processing child[0] , then DFS.
         3. BFS modifications usually won't have the **`visited`** array, whereas DFS usually has this concept.
+    2. [You might want to start *coloring* at positions where the answer is obvious](https://leetcode.com/submissions/detail/760735176/).
 5. DP
 6. Greedy
 7. Character array
