@@ -2,6 +2,7 @@
 
 1. [Super Ugly Number](#super-ugly-number)
    1. [Solution](#sol1)
+2. [Unique Paths](#unique_paths)
 
 
 
@@ -22,7 +23,7 @@
 
 
 
-# Solution<a name="sol1"></a>
+## Solution<a name="sol1"></a>
 
 1. ```cpp
    class Solution {
@@ -55,7 +56,6 @@
            // return 32;
        }
    };
-```
    
 2. maintain an array `multiple_of` that maintains the position of the largest **ugly** number which when multiplied with `primes[i]` gives the smallest possible multiple of `primes[i]` which is **not yet in the set, hence may be a candidate next-ugly-number**.
 
@@ -67,4 +67,24 @@
 4. ![equation](https://latex.codecogs.com/gif.latex?%7B%5Ccolor%7BRed%7D%20%5Ctextrm%7B%20note%20that%20we%20are%20taking%20non-duplicate%20ugly%20numbers%20as%20the%20answer.%7D%7D)
 
 
+# Unique Paths<a name="unique_paths"></a>
 
+1. [Leetcode](https://leetcode.com/problems/unique-paths/)
+2. Given the two integers m and n, grid of size `m x n` filled with only 0's and 1's, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
+The test cases are generated so that the answer will be less than or equal to 2 x 10^9.
+
+## Solution
+1. Think of a Combinatorial, see pattern of each column.
+2. ```cpp
+    int uniquePaths(int m, int n) {
+        if(m == 1 || n == 1) return 1;
+        double ans = 1;
+        int r = 1, N = n, R = m-1;
+        // compute N C r
+        while(r <= R){
+            ans = ans*N/r;
+            N++;
+            r++;
+        }
+        return (int)ans;
+    } 
