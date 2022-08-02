@@ -20,6 +20,10 @@ Examples of each common time complexity
 
 - 2D vector 1-line declaration : `vector<vector<int>> arr = vector<vector<int>>(M, vector<int>(N, 0));` or (`vector<vector<int>> arr = vector<vector<int>>(M, vector<int>(0));`)
 
+
+# Resources
+1. [Striver's 180 problems sheet](https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/)
+
 # Common Patterns
 1. Hash Map
 2. Prefix/suffix sum
