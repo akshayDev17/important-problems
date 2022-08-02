@@ -25,6 +25,10 @@ Examples of each common time complexity
 2. Prefix/suffix sum
 3. forward/reverse traversal of array
 4. BFS/DFS
+    1. ## When to use DFS vs When to use BFS
+        1. when you want to visit all children nodes at once, then BFS.
+        2. When you want to visit each child one by one, process child[1] after processing child[0] , then DFS.
+        3. BFS modifications usually won't have the **`visited`** array, whereas DFS usually has this concept.
 5. DP
 6. Greedy
 7. Character array
