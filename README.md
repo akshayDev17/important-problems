@@ -34,6 +34,24 @@ Examples of each common time complexity
         2. When you want to visit each child one by one, process child[1] after processing child[0] , then DFS.
         3. BFS modifications usually won't have the **`visited`** array, whereas DFS usually has this concept.
     2. [You might want to start *coloring* at positions where the answer is obvious](https://leetcode.com/submissions/detail/760735176/).
+    3. the concept of visited is emulated as level number in BFS.
+    ```cpp
+    // assume q is filled with the set of coordinates from which BFS needs to be started.
+    int level = 0;
+    while(!q.empty()){
+        int sz = q.size();
+        while(sz){
+            pair<int,int> p = q.front();q.pop();
+            int r = p.first, c = p.second;
+            for(int i = 0;i<4;i++){
+                int nr = r + moves[i], nc = c + moves[i+1];
+                if(!isInvalid(i,j,m,n) && grid[nr][nc] != 1) q.push(make_pair(nr, nc));
+            }
+            sz--;
+        }
+        level++;
+    }
+    ```
 5. DP
 6. Greedy
 7. Character array
