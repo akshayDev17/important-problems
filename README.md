@@ -53,8 +53,17 @@ Examples of each common time complexity
     }
     ```
 5. DP
+    1. Knapsack approach
+        1. Rather than working with the array, work with the X value.
+            1. i.e., start from `ans(x=0), then ans(x=1).....ans(x=X)`.
 6. Greedy
 7. Character array
 8. Two pointer
 9. Binary Search
 10. Map(encode) to [common string pattern](https://leetcode.com/problems/find-and-replace-pattern/)
+
+# Best Practices<a name="best_practices"></a>
+
+## Pass By Reference for big vectors and big strings
+1. Its always better to use pass by reference for helper functions when using big vectors/strings, or else you might get a TLE because the compile will be forced to create a new copy of that large *container* for each call.
+    1. Codes such as `dfs` can easily get TLE due to this.
