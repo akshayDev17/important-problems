@@ -67,3 +67,12 @@ Examples of each common time complexity
 ## Pass By Reference for big vectors and big strings
 1. Its always better to use pass by reference for helper functions when using big vectors/strings, or else you might get a TLE because the compile will be forced to create a new copy of that large *container* for each call.
     1. Codes such as `dfs` can easily get TLE due to this.
+
+## Int to String
+    1. ```cpp
+        int x = 234;
+        string ans;
+        stringstream ss; ss<< x;
+        ss >> ans;
+       ```
+    
