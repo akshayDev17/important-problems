@@ -52,6 +52,7 @@ Examples of each common time complexity
         level++;
     }
     ```
+    4. Coloring nodes in an alternative fashion might result into something, such as the *Detect a Bipartite graph* problem.
 5. DP
     1. Knapsack approach
         1. Rather than working with the array, work with the X value.
