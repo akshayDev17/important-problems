@@ -53,6 +53,9 @@ Examples of each common time complexity
     }
     ```
     4. Coloring nodes in an alternative fashion might result into something, such as the *Detect a Bipartite graph* problem.
+    5. If the answer is to be found via going through multiple paths((0,0)-->(m-1,n-1)), such that the paths will have common cells, then `visited` array will not work as the optimal path can have nodes common to a non-optimal path, but if the non-optimal path is traversed through first, some nodes will be marked visited, and hence the optimal path will never be found.
+    Hence something like a `distance` array will help better, because if `dist[i][j]` is updated, it means we have found a better path than the previously traversed ones.
+    `visited` array usually requires a *directed graph*, whereas if an **undirected one** is given it could mean that some **nodes will be traversed more than once** while traversing through all possible paths.
 5. DP
     1. Knapsack approach
         1. Rather than working with the array, work with the X value.
