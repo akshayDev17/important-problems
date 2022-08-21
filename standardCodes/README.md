@@ -1,9 +1,21 @@
 # Table of Contents
-1. [Linked List Cycle](#linked_list_cycle)
-2. [DFS using stack(iterative dfs)](#iterative_dfs)
-3. [Dynamic Programming - Knapsack](#knapsack)
-4. [Custom Sorting](#custom_sort)
-5. [Custom Priority Queue](#custom_priority_queue)
+1. Linked Lists:
+    1. [Linked List Cycle](#linked_list_cycle)
+2. Dynamic Programming
+    1. [Dynamic Programming - Knapsack](#knapsack)
+3. Sorting
+    1. [Custom Sorting](#custom_sort)
+    2. [Bucket Sort](#bucket_sort)
+3. Heap/Priority Queues
+    1. [HeapSort](#heapsort)
+    2. [Custom Priority Queue](#custom_priority_queue)
+3. Graphs
+    1. BFS/DFS
+        1. [DFS using stack(iterative dfs)](#iterative_dfs)
+    2. Shortest Path
+        1. [Bellman Ford](#bellman_ford)
+        2. [Dijsktra's Algorithm](#dijkstra)
+
 
 # Linked List Cycle<a name="linked_list_cycle"></a>
 1. Given a linked list, tell where does the cycle begin, *if there is any*.
@@ -17,7 +29,7 @@
 4. Now initialize `fast` at head, and iterate till `slow == fast`.
 5. The following diagram explains why this works: <img src="linked_list_cycle.png" />
 
-# DFS using stack(iterative DFS)<a name="iterative_dfs"></a>
+
 
 # Dynamic Programming - Knapsack<a name="knapsack"></a>
 1. Its not always necessary to think about building up on the array.
@@ -26,20 +38,72 @@
 2. Similar problem - [Combination Sum IV](https://leetcode.com/problems/combination-sum-iv/)
 
 # HeapSort<a name="heapsort"></a>
+1. 0th index = top element of heap.
+2. for ith index: children = `2*i+1,2*i+2`
+    1. 
+    ```cpp
+    /* 
+    sample vec: [[1,3],[2,5],[3,7],[4,9],[4,11]]
+    initial heap-structure:
+           1,3(0)
+      2,5(1)    3,7(2)
+    4,9(3) 4,1(4)
+    */
+    ```
+3. Heapify:
+    1. For the given node `parent`, convert the heap-subtree below this `parent` node such that it obeys the heap's ordering constraints.
+    2. For instance: 
+        1. <u>Ordering Constraints:</u> a parent node should be `<=` both its child nodes, if a **heap is a min-heap**.
+    3. Sample code:
+    ```cpp
+    bool comparator(vector<int> v1, vector<int> v2){
+        // return true if v1 should be placed before v2 in ordering
+        double a1 = v1[0], b1 = v1[1], a2 = v2[0], b2 = v2[1];
+        return (a1/b1 < a2/b2);
+    }
+    void heapify(vector<vector<int>> &vec, bool (*comparator)(vector<int>, vector<int>), int parent, int heap_size){
+        // start ordering children nodes w.r.t. their parents, from the node `parent`
+        int left = parent*2+1, right = parent*2+2;
+        int smallest = parent;
+        if(left < heap_size && !comparator(vec[parent], vec[left])){
+            // parent should come after left in the ordering
+            smallest = left;
+        }
+        if(right < heap_size && !comparator(vec[smallest], vec[right])) smallest = right;
+        if(smallest != parent){
+            // swap parent with the smallest
+            // here smallest means that vec[smallest][0]/vec[smallest][1] is the smallest of (parent,left,right)
+            int c = vec[smallest][0];
+            vec[smallest][0]; = vec[parent][0];
+            vec[parent][0] = c;
 
-## Max Heap
+            c = vec[smallest][1];
+            vec[smallest][1]; = vec[parent][1];
+            vec[parent][1] = c;
 
-## Min Heap
+            heapify(vec, comparator, smallest, heap_size);
+        }
+    }
+    /*
+    Heap Constraints:
+    each parent node will have the a/b ratio less than either of its children
+    */
+    ```
+    4. To construct the heap, we need to call this function only once, at the root node(`parent=0`).
+4. HeapSort Main algorithm:
+    1. Initialize `heap_size=n`
+    2. For all parent nodes, starting from the last parent = `(n/2)` till `0`:
+        1. Run heapify from the last parent node, i.e. the `(n/2)'th` node.
+        2. Swap the root with the valid last element[`(heap_size-1)'th`] element. 
+        3. Decrease the size by 1, i.e. `heap_size--`.
 
-## Sort
 
-### Time Complexities
+# Bucket Sort<a name="bucket_sort"></>
+1. [bucketsort.cpp](./bucketsort.cpp)
+2. For floating points with no integral part(i.e. in between 0 and 1), the `bucketing function` would be `10*arr[i]`.
 
 # Custom Sorting<a name="custom_sort"></a>
 
-## Syntax
-
-## How to return the correct inequality?
 1. The value returned indicates whether the element passed as first argument is considered to go before the second in the specific strict weak ordering it defines. [Doc link](https://cplusplus.com/reference/algorithm/sort/)
 2. In other words, `comp(x,y)` should return true if `x `is supposed to be placed before `y` in the resulting vector.
 3. Furthermore from the documentation: *This can either be a function pointer or a function object.*
@@ -99,3 +163,33 @@
 
 ## Greater than override
 
+# DFS using stack(iterative DFS)<a name="iterative_dfs"></a>
+
+# Bellman Ford Algorithm<a name="bellman_ford"></a>
+1. Single Source Shortest path to all nodes.
+2. Initialize Adjacency list: (node,edgeWeight)
+3. Initialize dist array with all values as INT_MAX
+4. Check if negative edge cycle exists:
+    1. dist[start] = 0
+    2. For `|V|-1` times, iterate through all edges `E` of the graph, updating `dist[v]` to `dist[u]+edgeLen` for each edge if `dist[v]` was larger. \
+       For each edge, this operation is known as *relaxing an edge*.
+    3. Again relax all edges once to see if any `dist[u]` gets updated, if yes, then there is a negative edge cycle.
+5. If not:
+    1. `dist` contains the shortest distance for each node from starting node.
+6. Hence, **for Bellman Ford** , we require an **edge-representation of a graph**.
+
+# Dijsktra's Algorithm<a name="dijkstra"></a>
+1. Single Source Shortest path to all nodes.
+2. Initialize Adjacency list: (node,edgeWeight)
+3. Initialize dist array with all values as INT_MAX
+4. Initialize a priority queue(as a min heap), push (0, start) because distance of start from start is 0.
+5. Iterate while the priority queue is not empty:
+    1. Pop the top = (distVal, node).
+    2. `if dist[node] <= distVal`
+        1. `dist[node] = distVal`
+        2. Iterate through all nodes in the adjacency list of node, `adjNode`:
+            1. If `dist[adjNode] > dist[node]+adjNodeEdgeVal`, make `dist[adjNode] = dist[node]+adjNodeEdgeVal` and
+            2. push `(dist[adjNode], adjNode)` to the priority queue.
+6. We can easily see that if we have a negative edge weight cycle, i.e. a cycle with the sum of all edge weights being negative, then we will always iterate through the nodes of this cycle, updating the `dist[]` to a smaller value , and hence the update will become an infinite loop.
+7. Hence we first need to check/be sure that the input graph doesn't have a negative cycle.
+8. Time Complexity = O((V+E)logV) , Memory: O(V+E)
