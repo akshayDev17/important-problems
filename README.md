@@ -24,6 +24,10 @@ Examples of each common time complexity
 # Resources
 1. [Striver's 180 problems sheet](https://takeuforward.org/interviews/strivers-sde-sheet-top-coding-interview-problems/)
 
+# Source Code Location
+1. in macOS
+    1. `/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1`
+
 # Common Patterns
 1. Hash Map
 2. Prefix/suffix sum
@@ -72,10 +76,10 @@ Examples of each common time complexity
     1. Codes such as `dfs` can easily get TLE due to this.
 
 ## Int to String
-    1. ```cpp
-        int x = 234;
-        string ans;
-        stringstream ss; ss<< x;
-        ss >> ans;
-       ```
+1. ```cpp
+    int x = 234;
+    string ans;
+    stringstream ss; ss<< x;
+    ss >> ans;
+    ```
     
