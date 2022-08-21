@@ -2,6 +2,7 @@
 
 1. [Swim in rising water](#p1)
    1. [Solution](#sol1)
+2. [Furthest Building You Can Reach](#p2)
 
 
 
@@ -111,3 +112,34 @@
 
    1. the values that will be first popped are 0, 1, 2, 3, 4, 5, 16, after which the algorithm will realise that the a better path actually lies on a forking path at the starting cell(**it may not be always necessary that a better path is **), i.e. from 0->15
    2. thus the next popped items in sequential order are 15, 12, 11, 10, 9, 8, 7, 6.
+
+
+# Furthest Building You Can Reach<a name="p2"></a>
+
+1. <blockquote>
+    You are given an integer array heights representing the heights of buildings, some bricks, and some ladders.
+
+    You start your journey from building 0 and move to the next building by possibly using bricks or ladders.
+
+    While moving from building i to building i+1 (0-indexed),
+
+    If the current building's height is greater than or equal to the next building's height, you do not need a ladder or bricks.
+    If the current building's height is less than the next building's height, you can either use one ladder or (h[i+1] - h[i]) bricks.
+    Return the furthest building index (0-indexed) you can reach if you use the given ladders and bricks optimally. 
+  </blockquote>
+
+2. The first solution that you can think of is to exhaust all bricks and then use up all ladders.
+    1. The problem with this is that the optimal approach be: B L L B L B B.
+    2. A sample test case - 
+        ```cpp
+        arr = [1,5,1,2,3,4,10000];
+        bricks = 4, ladders = 1;
+        ```
+3. Ladders would be most helpful for the largest leaps.
+    1. Hence a subproblem is: *find the `ladders` largest jumps*.
+    2. But this is not the solution, as for the remaining jumps not handled by ladders, the total of these jumps could be greater than `bricks`.
+4. Hence, iterate from first building, till `ladders` jumps are found, using ladders for all, i.e. **push into priority_queue(min heap)**.
+    1. Now for `(ladders+1)'th` jump, push it and pop off the top(least jump encountered till now), checking whether it(the smallest jump) less than or equal to bricks.
+        1. if its less, advance forward. This means that the smallest jump found till now can be cross by bricks, and the other remaining jumps found till now will be performed using Ladders.
+        2. if not, it means that the smallest jump found till now, i.e. the most smallest jump amongst the first `ladders+1` jumps cannot be performed by bricks. Hence bricks are useless, and only ladders will take us to the furthest possible building.
+    2. Continue to iterate through other jumps , checking whether the smallest jump can be made by remaining bricks.
