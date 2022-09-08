@@ -6,6 +6,8 @@
 3. Sorting
     1. [Custom Sorting](#custom_sort)
     2. [Bucket Sort](#bucket_sort)
+4. Bit Manipulation
+    1. [All possible subsets](#all_possible_subsets)
 3. Heap/Priority Queues
     1. [HeapSort](#heapsort)
     2. [Custom Priority Queue](#custom_priority_queue)
@@ -143,6 +145,20 @@
         4. Another alternative: use the **`lambda format`**: `sort(vec.begin(), vec.end(), [](int a, int b) -> bool {return a < b; });`
 4. 
 
+
+
+# All possible subsets<a name="all_possible_subsets"></a>
+```cpp
+int len = 1 << numsSize; // the number of subsets is 2 ^ |S|
+for(int i = 0; i < len; i++){ //iterate over every subset
+    int subtotal = 0;
+    for(int j = 0; j < numsSize; j++){ //iterate over every nums element
+        if((1 << j) & i){ //check if nums element is in subset
+            // enter code here
+        }
+    }
+}
+```
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
