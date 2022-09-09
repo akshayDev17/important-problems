@@ -8,10 +8,14 @@
     2. [Bucket Sort](#bucket_sort)
 4. Bit Manipulation
     1. [All possible subsets](#all_possible_subsets)
-3. Heap/Priority Queues
+    2. [Bit Set and Builtin Popcount](#bit_set)
+    3. [Bit library C++](#bit)
+    4. [Builtin Functions GCC Compiler](#gcc_builtin_functions)
+    5. [Mod vs Bitwise operators](#mod_vs_bitwise_operators)
+5. Heap/Priority Queues
     1. [HeapSort](#heapsort)
     2. [Custom Priority Queue](#custom_priority_queue)
-3. Graphs
+6. Graphs
     1. BFS/DFS
         1. [DFS using stack(iterative dfs)](#iterative_dfs)
     2. Shortest Path
@@ -159,6 +163,36 @@ for(int i = 0; i < len; i++){ //iterate over every subset
     }
 }
 ```
+
+# Bit Set and Builtin Popcount<a name="bit_set"></a>
+**`#include<bitset>`**
+1. Bit set : Stores the M-bit representation of a given number.(`bitset<32> varname(a)`, if a = 7, `varname = 00000000000000000000000000000111`, 32 bits since 32 was given)
+    1. `varname.count()` returns 3 --> `count()` returns the number of set bits.
+    2. fetching count without declaring a variable: `bitset<32>(a).count()`
+    3. `cout` is supported: `cout << varname;` = `00000000000000000000000000000111`
+2. space taken is less than bool[n] and vector bs[n], `n` must be known at compile time(or declare `bitset<32>`).
+3. Bitset stores the same information in compressed manner the operation on bitset are faster than that of array and vector.
+4. `bs[3]` shows bit at index `3` of bitset bs just like a simple array(index `3` means the **`4th bit`** and not the `index` in the array sense).
+5. We can construct a bitset using integer number as well as binary string: `bitset<8>string("11100")` = `00011100`
+6. [Documentation](https://en.cppreference.com/w/cpp/utility/bitset) page shows the operators supported by this class.
+
+**`#include<bit>`**
+1. `__builtin__popcount(a)` returns the number of set bits in a, a: unsigned (short, int, char, long, long long).
+2. **Different from the popcount specified below**.
+
+# Bit library C++<a name="bit"></a>
+1. [`#include<bit>`](https://en.cppreference.com/w/cpp/header/bit)
+2. refer to the functions: 
+<img src="bitLibraryCpp.png" />
+
+# Builtin Functions GCC Compiler<a name="gcc_builtin_functions"></a>
+1. `__builtin_parity(x)` - returns true(1) if odd number of set bits(odd parity) else 0. use `__builtin_parityl(x)` and `__builtin_parityll(x)`  for `long` and `long long` datatypes.
+2. `__builtin_clz(x)` - returns count of leading number of 0's in bit-representation. use `__builtin_clzl(x)` and `__builtin_clzll(x)`  for `long` and `long long` datatypes.
+3. `__builtin_ctz(x)` - returns count of trailing number of 0's in bit-representation. use `__builtin_ctzl(x)` and `__builtin_ctzll(x)`  for `long` and `long long` datatypes.
+
+# Mod vs Bitwise operators<a name="mod_vs_bitwise_operators"></a>
+1. `n << 1` better than `2*n`
+2. `n & 1` better than `n%2`
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
