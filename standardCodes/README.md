@@ -22,7 +22,6 @@
         1. [Bellman Ford](#bellman_ford)
         2. [Dijsktra's Algorithm](#dijkstra)
 
-
 # Linked List Cycle<a name="linked_list_cycle"></a>
 1. Given a linked list, tell where does the cycle begin, *if there is any*.
 
@@ -193,6 +192,25 @@ for(int i = 0; i < len; i++){ //iterate over every subset
 # Mod vs Bitwise operators<a name="mod_vs_bitwise_operators"></a>
 1. `n << 1` better than `2*n`
 2. `n & 1` better than `n%2`
+
+# Bit Tricks<a name="bit_tricks"></a>
+1. rightmost set bit of a number: `n & ~(n-1)`.
+    1. rightmost set bit means that there are only 0's after it in the bit representation of n.
+    2. hence `n = ----1000...`, for n-1 that 1 will be carried over to previous positions, thus making these trailing zeros to ones. \
+    `n-1 = ----0111...(all 1's)`, now complementing `n-1` will make that carried-over bit set, and the trailing ones(which were trailing zeros initially, to `0's`)
+    3. now obviously `n & n-1` will give a number whose ONLY set bit is the rightmost set bit of n.
+2. Int to Hex and Hex to Int
+    1. ```cpp
+       int x=942; stringstream ss;ss << hex << x; 
+       string res = ss.str();
+       cout << "0x" << res << endl; // prints 0x3ae
+       ```
+    2. ```cpp
+       string s="0x3ae"; stringstream ss;ss << std::hex << s; 
+       int x; ss >> x;
+       cout << x << endl; // print 942
+       ```
+    3. Hex is an I/O manipulator(`#include<iostream>`) that takes reference to an I/O stream as parameter and returns reference to the stream(`#include <sstream>`) after manipulation.
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
