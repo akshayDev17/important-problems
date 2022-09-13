@@ -220,6 +220,22 @@ for(int i = 0; i < len; i++){ //iterate over every subset
         for(int i=0;i<n;i++){l |= (1 << (s[i]-'a')); left[i] = __builtin_popcount(l);}
         for(int i=n-1;i>=0;i--){r |= (1 << (s[i]-'a')); right[i] = __builtin_popcount(r);}
         ```
+4. Gray Code
+    1. Cyclic permutation where `arr[i]` and `arr[i+1]` have only one bit different, and `arr[0]` and `arr[n]` have only one bit different.
+    2. ```cpp
+        vector<int>temp(1<<n),ans(1<<n);
+        int ind=0;
+        for(int i=0;i<(1<<n);i++){
+            temp[i]=i^(i>>1);
+            if(temp[i]==start){
+                ind=i;
+            }
+        }
+        for(int i=0;i<(1<<n);i++){
+            ans[i]=temp[ind++%(1<<n)];
+           
+        }
+       ```
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
