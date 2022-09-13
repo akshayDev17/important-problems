@@ -211,6 +211,15 @@ for(int i = 0; i < len; i++){ //iterate over every subset
        cout << x << endl; // print 942
        ```
     3. Hex is an I/O manipulator(`#include<iostream>`) that takes reference to an I/O stream as parameter and returns reference to the stream(`#include <sstream>`) after manipulation.
+3. COUNT DISTINCT ALPHABETS FROM LEFT AND RIGHT:
+    1. **Required condition: either all are lowercase or all are uppercase.**
+    2. 'a' - bit 0, 'b' - bit 1.... 'z' - bit 26
+    3. ```cpp
+        int l = 0;
+        int n = s.length();vector<int> left(n, 0), right(n, 0);
+        for(int i=0;i<n;i++){l |= (1 << (s[i]-'a')); left[i] = __builtin_popcount(l);}
+        for(int i=n-1;i>=0;i--){r |= (1 << (s[i]-'a')); right[i] = __builtin_popcount(r);}
+        ```
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
