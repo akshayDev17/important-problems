@@ -12,6 +12,7 @@
     3. [Bit library C++](#bit)
     4. [Builtin Functions GCC Compiler](#gcc_builtin_functions)
     5. [Mod vs Bitwise operators](#mod_vs_bitwise_operators)
+    6. [Bit Tricks](#bit_tricks)
 5. Heap/Priority Queues
     1. [HeapSort](#heapsort)
     2. [Custom Priority Queue](#custom_priority_queue)
@@ -221,7 +222,7 @@ for(int i = 0; i < len; i++){ //iterate over every subset
         for(int i=n-1;i>=0;i--){r |= (1 << (s[i]-'a')); right[i] = __builtin_popcount(r);}
         ```
 4. Gray Code
-    1. Cyclic permutation where `arr[i]` and `arr[i+1]` have only one bit different, and `arr[0]` and `arr[n]` have only one bit different.
+    1. Cyclic permutation where `arr[i]` and `arr[i+1]` have only one bit different, and `arr[0]` and `arr[(1<<n)-1]` have only one bit different.
     2. ```cpp
         vector<int>temp(1<<n),ans(1<<n);
         int ind=0;
@@ -234,6 +235,19 @@ for(int i = 0; i < len; i++){ //iterate over every subset
         for(int i=0;i<(1<<n);i++){
             ans[i]=temp[ind++%(1<<n)];
            
+        }
+       ```
+5. Bit length of iterator(i: 1...n)
+    1. Whenever going from 2^n-1 to 2^n , the length increases.
+    2. staying in between 2^(n-2)...2^n-1 , the length remains the same.
+    3. ```cpp
+        int len = 0;
+        for(int i=1;i<=10;i++){
+            if(i & (i-1) == 0){
+                // this captures the 2^n-1 ---> 2^n change
+                len++;
+            }
+            cout << "Bit length for " << i << " is " << len;
         }
        ```
 
