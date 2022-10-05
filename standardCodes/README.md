@@ -237,6 +237,19 @@ for(int i = 0; i < len; i++){ //iterate over every subset
            
         }
        ```
+    3. **Why this works?**
+        1. lets take a number of the form a.b.c , where a,b,c, all are bits.
+        2. Case-1: c=0, then current index = a.b.0 , next index = a.b.1, current number = a.b.0 ^ 0.a.b = a.a^b.`b` , next number = a.b.1 ^ 0.a.b = a.a^b.b^1 = a.a^b.`~b` . Hence we have the last bit changed.
+        3. Case-2: c=1,b=0,a=1(atleast one bit after msb is unset), current index = 1.0.1, current number = 1.0.1 ^ 0.1.0 = 1.`1`.1 , next index = 1.1.0, next number = 1.1.0 ^ 0.1.1 = 1.`0`.1. Hence the middle bit, i.e. *the first 0 from right*, is changed.
+        4. Case-3: a=1,b=1,c=1(*all bits are set*), current index = `0`.1.1.1, **current number = 1.1.1 ^ 0.1.1 = `0`.1.0.0** , next index = 1.0.0.0, **next number = 1.0.0.0 ^ 0.1.0.0 = `1`.1.0.0**. Hence again, *the first 0 from right*, is changed.
+        5. Possible reason for the above observation: if 1 is added, the first zero from right is the position where *carrying over* stops, and it itself flips to 1.
+            - bits further left of this bit remain unaffected(hence shift xoring doesn't affect positions on the left of this 0 bit).
+            - the bit xored with 0 is itself, whereas the bit xored with 1 is the complementary.
+            - hence, when the next index is xored, the result at this position will be the complementary of the bit at this position obtained from xoring the previous index.
+            a.b.c.0.1.1-->a.b^a.c^b.`0^c`.1.0 , a.b.c.1.0.0 --> a.b^a.c^b.`1^c`.0^1.0^0
+            - we right shift instead of left shift, because left shift will produce another different bit, at the new MSB position(`0`.1.b.c.0.1.1 ----> `1`.b.c.0.1.1.1).
+            - right shifting causes the previous-index's MSB to become 0, hence now xoring would give back the original MSB value(`1`.a.b.c.... ---> `0`.1.a.b.c....., XOR = `1`.~a.a^b.b^c.....).
+            
 5. Bit length of iterator(i: 1...n)
     1. Whenever going from 2^n-1 to 2^n , the length increases.
     2. staying in between 2^(n-2)...2^n-1 , the length remains the same.
