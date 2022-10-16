@@ -61,3 +61,27 @@ bool numWays(vector<int> w, int W){
 ```
 
 # Number of triangles in a given graph<a name="num_triangles_in_graph"></a>
+1. Given a graph with N<=2000 vertices, count triangles (a,b,c).
+2. Solution:
+    1. for each vertex(`a`), check its adjancency list(`l1`).
+    2. for each element(`b`) in this adjacency list, check its adjancency list(`l2`).
+    3. the common vertices(`c`) in `l1` and `l2` will form a triangle.
+    4. these common vertices can be found by **bitmasking** the **adjacency lists `l1` and `l2`** and counting the set bits of the **bitwise and** of these masks.
+    5. for each vertex, all masks would be declared of the form: `bitset<2001>bs;`
+        ```cpp
+        /*
+        lets say for convenience, N <= 10
+        1 = {2,3,4,7,8}  -> 00110011100
+        2 = {1,3,5,7,10} -> 10010101010 , AND = 00010001000, count=2
+        ...
+
+        1 = {2,3,4,7,8}  -> 00110011100
+        3 = {1,2,4,5}    -> 00000110110, AND = 0000010100, --> triangle (1,2,3) gets counted twice
+        ...
+
+        2 = {1,3,5,7,10} -> 10010101010
+        3 = {1,2,4,5}    -> 00000110110, AND = 0000000010, --> triangle (1,2,3) gets counted thrice
+        ...
+        */
+        ```
+    6. the actual answer would be `SUM/3`, since all triangles would be triple-counted. `(a,b  b,c  a,c)`
