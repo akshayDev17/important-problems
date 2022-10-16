@@ -1,5 +1,7 @@
 # Table of Contents
 1. [Max XOR of two elements in array](#max_xor)
+2. [Knapsack using bitset](#bitset_knapsack)
+3. [Number of triangles in a given graph](#num_triangles_in_graph)
 
 # Max XOR of two elements in array<a name="max_xor"></a>
 1. Given an array of size n(n <= 2 * 10^5) , return max xor value of two elements. All elements are non-negative.
@@ -16,5 +18,46 @@
     4. `newMax(at bit=i) >= (at bit=i+1)` because `mx` will either remain unchanged(the if condition wasn't met), or if the condition is met, then `mx` goes from `...1000...` --> `...1100...`
 2. Solution: [max_xor.cpp](max_xor.cpp)
 
+# Knapsack using bitset<a name="bitset_knapsack"></a>
+1. your given `N <= 1000` items, each with weight `w[i]`, such that `w[i] <= 1000000000`, and also a value `W`. Find if its possible to form a bag having weight exactly equal to `W`.
+2. Solution: for each w[i], all bags with weights between w[i] and W can be formed if w[W-i] can be formed.
+```cpp
+int maxW = 1000000001;
+bool numWays(vector<int> w, int W){
+    int n = w.size();
+    bitset<maxW> bs;
+    bs[0] = true; // a bag with 0 weight can be formed by selecting no item
+    /*
+    Initial approach:
+    vector<bool> can(W+1, false);
+    can[0]=true; // a bag with 0 weight can be formed by selecting no item
+    for(int i=0;i<n;i++){
+        for(int j=W;j>=w[i];j--){
+            if(can[j-w[i]]) can[j]=true;
+        }
+    }
+    return can[W];
+    */
+    for(int i=0;i<n;i++){
+        bs = bs | (bs << w[i]);
+        /*
+        with weight=m is possible, bs[m]=1 else 0.
 
+        maxW = 10, W = 5
+        00000000001 (bs[0] = true)
 
+        x=2
+        00000000101(same as 00000000001 | (00000000001 << 2 = 00000000100))
+        i-th bit + 2 would mean that all i+2(bs[i]=1) are made possible, which is nothing but shifting `bs` by 2.
+
+        x=3
+        3,3+2 would be set
+        00000101101(same as 00000000101 | (00000000101 << 3 = 00000101000))
+                            00000101000
+        */
+    }
+    return bs[W];
+}
+```
+
+# Number of triangles in a given graph<a name="num_triangles_in_graph"></a>

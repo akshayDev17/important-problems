@@ -170,15 +170,12 @@ for(int i = 0; i < len; i++){ //iterate over every subset
     1. `varname.count()` returns 3 --> `count()` returns the number of set bits.
     2. fetching count without declaring a variable: `bitset<32>(a).count()`
     3. `cout` is supported: `cout << varname;` = `00000000000000000000000000000111`
+    4. this M number can **easily exceed 64**, it can be something like 365.
 2. space taken is less than bool[n] and vector bs[n], `n` must be known at compile time(or declare `bitset<32>`).
 3. Bitset stores the same information in compressed manner the operation on bitset are faster than that of array and vector.
 4. `bs[3]` shows bit at index `3` of bitset bs just like a simple array(index `3` means the **`4th bit`** and not the `index` in the array sense).
 5. We can construct a bitset using integer number as well as binary string: `bitset<8>string("11100")` = `00011100`
 6. [Documentation](https://en.cppreference.com/w/cpp/utility/bitset) page shows the operators supported by this class.
-
-**`#include<bit>`**
-1. `__builtin__popcount(a)` returns the number of set bits in a, a: unsigned (short, int, char, long, long long).
-2. **Different from the popcount specified below**.
 
 # Bit library C++<a name="bit"></a>
 1. [`#include<bit>`](https://en.cppreference.com/w/cpp/header/bit)
@@ -186,9 +183,12 @@ for(int i = 0; i < len; i++){ //iterate over every subset
 <img src="bitLibraryCpp.png" />
 
 # Builtin Functions GCC Compiler<a name="gcc_builtin_functions"></a>
-1. `__builtin_parity(x)` - returns true(1) if odd number of set bits(odd parity) else 0. use `__builtin_parityl(x)` and `__builtin_parityll(x)`  for `long` and `long long` datatypes.
-2. `__builtin_clz(x)` - returns count of leading number of 0's in bit-representation. use `__builtin_clzl(x)` and `__builtin_clzll(x)`  for `long` and `long long` datatypes.
-3. `__builtin_ctz(x)` - returns count of trailing number of 0's in bit-representation. use `__builtin_ctzl(x)` and `__builtin_ctzll(x)`  for `long` and `long long` datatypes.
+**Note:** For all of the functions listed below, no need to import anything.
+1. `__builtin__popcount(a)` returns the number of set bits in a, a: unsigned (short, int, char, long).
+    1. for `unsigned long long` or `long long`, use `__builtin_popcountll(a)`.
+2. `__builtin_parity(x)` - returns true(1) if odd number of set bits(odd parity) else 0. use `__builtin_parityl(x)` and `__builtin_parityll(x)`  for `long` and `long long` datatypes.
+3. `__builtin_clz(x)` - returns count of leading number of 0's in bit-representation. use `__builtin_clzl(x)` and `__builtin_clzll(x)`  for `long` and `long long` datatypes.
+4. `__builtin_ctz(x)` - returns count of trailing number of 0's in bit-representation. use `__builtin_ctzl(x)` and `__builtin_ctzll(x)`  for `long` and `long long` datatypes.
 
 # Mod vs Bitwise operators<a name="mod_vs_bitwise_operators"></a>
 1. `n << 1` better than `2*n`
