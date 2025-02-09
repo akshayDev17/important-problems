@@ -263,6 +263,10 @@ for(int i = 0; i < len; i++){ //iterate over every subset
             cout << "Bit length for " << i << " is " << len;
         }
        ```
+6. Leftmost set bit of a number: 
+    1. simply find log to the base-2
+    2. its because a number **set at the m'th position** will always be between two consecutive powers of 2:
+        1. `n < (1 << m+1) && n >= (1 << m)`, **`log2(n)==m`**.
 
 # Custom Priority Queue<a name="custom_priority_queue"></a>
 
