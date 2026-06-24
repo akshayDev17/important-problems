@@ -95,11 +95,32 @@
    };
    ```
 
-2. this solution works because if suppose a wrong path is chosen, due to the greedy nature of choosing the next cell, a better path is automatically chosen.
+## Explanation
+1. A path is usable at time t only if every cell on it has elevation <= t.
 
-3. this is ensured due to the numbers in the matrix being in the range `[0 to N*N-1]`
+2. Therefore, the time required for a path is the maximum elevation on that path.
 
-4. for instance, if suppose the input grid is:
+3. So we need a path from start to end minimizing this maximum elevation.
+
+4. Instead of enumerating paths, think of growing the connected region from the start.
+
+5. At any point, the only cells that matter are the boundary/frontier cells adjacent to the region.
+
+6. To keep the required water level as low as possible, always absorb the frontier cell with the smallest elevation.
+
+7. Since we repeatedly need the smallest frontier cell, use a min-heap.
+
+8. Since a cell can be reached from multiple directions, use a visited/set structure to avoid pushing it multiple times.
+
+9. Track the maximum elevation among cells popped so far. The first time the destination is popped, that maximum is the answer.
+
+## Walkthrough
+
+1. this solution works because if suppose a wrong path is chosen, due to the greedy nature of choosing the next cell, a better path is automatically chosen.
+
+2. this is ensured due to the numbers in the matrix being in the range `[0 to N*N-1]`
+
+3. for instance, if suppose the input grid is:
 
    ```
    Input:
@@ -112,6 +133,7 @@
 
    1. the values that will be first popped are 0, 1, 2, 3, 4, 5, 16, after which the algorithm will realise that the a better path actually lies on a forking path at the starting cell(**it may not be always necessary that a better path is **), i.e. from 0->15
    2. thus the next popped items in sequential order are 15, 12, 11, 10, 9, 8, 7, 6.
+
 
 
 # Furthest Building You Can Reach<a name="p2"></a>
