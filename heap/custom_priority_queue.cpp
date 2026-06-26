@@ -10,6 +10,11 @@ public:
 
 class Compare{
 public:
+	// comp(a, b) = true means "a is ordered before b" i.e. a has LOWER priority than b.
+	// comp(a, b) = false means a has equal or higher priority than b.
+	// The element for which comp(x, top) = false for all x sits at the top.
+	// So: return a.count < b.count → "smaller count = lower priority" → max count on top (max-heap).
+	// To get a min-heap, flip to: return a.count > b.count.
 	bool operator() (Data const& a, Data const& b){
 		return a.count < b.count;
 	}
