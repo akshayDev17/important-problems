@@ -301,6 +301,9 @@ for(int i = 0; i < len; i++){ //iterate over every subset
 5. If not:
     1. `dist` contains the shortest distance for each node from starting node.
 6. Hence, **for Bellman Ford** , we require an **edge-representation of a graph**.
+7. mnemonic to not confuse with Dijkstra:
+    - Bellman ford is able to handle negative edges and can be used for negative-cycle detection, hence will have to have bound no. of iterations.
+    - then think of how far in terms of no. of edges can a vertex be from another in a graph of V vertices.
 
 # Dijsktra's Algorithm<a name="dijkstra"></a>
 1. Single Source Shortest path to all nodes.
